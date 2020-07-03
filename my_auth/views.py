@@ -13,7 +13,10 @@ from .serializers import VerificateSerializer, MyTokenObtainPairSerializer
 from users.models import CustomUser
 
 
-class VerificateCode(generics.CreateAPIView):
+class GenerateConfirmationCode(generics.CreateAPIView):
+    """
+    Generate confirmation code and sent it to email
+    """
     serializer_class = VerificateSerializer
     permission_classes = [AllowAny]
 
@@ -42,7 +45,9 @@ class VerificateCode(generics.CreateAPIView):
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
-
+    """
+    Sends a token by email and confirmation
+    """
     serializer_class = MyTokenObtainPairSerializer
     queryset = CustomUser.objects.all()
 

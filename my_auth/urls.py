@@ -1,10 +1,10 @@
 from django.urls import path, include
 
-from .views import VerificateCode, MyTokenObtainPairView
+from .views import GenerateConfirmationCode, MyTokenObtainPairView
 
 
 urlpatterns = [
-    path('mail/', VerificateCode.as_view()),
+    path('mail/', GenerateConfirmationCode.as_view()),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
 
 ]

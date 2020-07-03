@@ -11,8 +11,10 @@ class Title(models.Model):
     name = models.CharField(max_length=100)
     year = models.IntegerField(blank=True, default=0)
     description = models.CharField(blank=True, null=True, max_length=300)
-    genre = models.ManyToManyField('Genre', blank=True)
-    category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.DO_NOTHING)
+    genre = models.ManyToManyField('Genre', blank=True, related_name="titles")
+    category = models.ForeignKey('Category', blank=True, null=True,
+                                 on_delete=models.DO_NOTHING,
+                                 related_name="titles")
 
     def __str__(self):
         return self.name
@@ -42,9 +44,10 @@ class Review(models.Model):
     Information from the reviews
     """
     title = models.ForeignKey(Title, on_delete=models.DO_NOTHING,
-                              related_name="titles")
+                              related_name="reviews")
     text = models.TextField(max_length=100)
-    author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(User, on_delete=models.DO_NOTHING,
+                               related_name="reviews")
     pub_date = models.DateTimeField(auto_now_add=True)
 
     num_score = zip(range(1, 11), range(1, 11))
@@ -56,8 +59,10 @@ class Comment(models.Model):
         Information from the comments
         """
     text = models.TextField(max_length=200)
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE,
+                               related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.DO_NOTHING,
+                               related_name="comments")
     pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
 
     def __str__(self):

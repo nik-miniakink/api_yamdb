@@ -22,9 +22,6 @@ class IsStaffOrAuthorOrReadOnly(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         if request.user.is_authenticated:
-            if request.method in ('PATH', 'DELETE'):
-                return (obj.author == request.user or request.user.role in (
-                    'admin', 'moderator') or request.user.is_superuser)
             return (obj.author == request.user or request.user.role in (
                 'admin', 'moderator') or request.user.is_superuser)
 
