@@ -62,10 +62,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
             return Response("Confirmation code is required field.",
                             status=status.HTTP_400_BAD_REQUEST)
         if not Verificate.objects.filter(email=email,
-                                       confirmation_code=confirmation_code):
+                                       confirmation_code=confirmation_code).exist():
             return Response("Confirmation code for your email isn't valid.",
                             status=status.HTTP_400_BAD_REQUEST)
-        if not CustomUser.objects.filter(email=email):
+        if not CustomUser.objects.filter(email=email).exist():
             CustomUser.objects.create(email=email)
         if serializer.is_valid(raise_exception=True):
             Verificate.objects.get(email=email).delete()
