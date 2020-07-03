@@ -72,35 +72,35 @@ class Test01UserAPI:
         data = {}
         response = user_client.post('/api/v1/users/', data=data)
         assert response.status_code == 400, \
-            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 400'
+            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 1400'
         data = {
             'username': 'TestUser1231231',
-            'role': 'user'
+            'role': 'users'
         }
         response = user_client.post('/api/v1/users/', data=data)
         assert response.status_code == 400, \
-            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 400'
+            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 2400'
         data = {
             'username': 'TestUser1231231',
-            'role': 'user',
+            'role': 'users',
             'email': admin.email
         }
         response = user_client.post('/api/v1/users/', data=data)
         assert response.status_code == 400, \
-            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 400. ' \
+            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 3400. ' \
             '`Email` должен быть уникальный у каждого прользователя'
         data = {
             'username': admin.username,
-            'role': 'user',
+            'role': 'users',
             'email': 'testuser@yamdb.fake'
         }
         response = user_client.post('/api/v1/users/', data=data)
         assert response.status_code == 400, \
-            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 400. ' \
+            'Проверьте, что при POST запросе `/api/v1/users/` с не правильными данными возвращает 4400. ' \
             '`Username` должен быть уникальный у каждого прользователя'
         data = {
             'username': 'TestUser1231231',
-            'role': 'user',
+            'role': 'users',
             'email': 'testuser@yamdb.fake'
         }
         response = user_client.post('/api/v1/users/', data=data)
@@ -210,7 +210,7 @@ class Test01UserAPI:
             f'с токеном авторизации {user_name} возвращается статус 403'
         data = {
             'username': 'TestUser9876',
-            'role': 'user',
+            'role': 'users',
             'email': 'testuser9876@yamdb.fake'
         }
         response = client_user.post('/api/v1/users/', data=data)
