@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True)
 
     ROLE_CHOICES = [
-        ('users', 'users'),
+        ('user', 'user'),
         ('admin', 'admin'),
         ('moderator', 'moderator'),
     ]
