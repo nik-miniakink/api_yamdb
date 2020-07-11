@@ -26,9 +26,9 @@ router.register(r'titles/(?P<title_id>\d+)/reviews', ReviewViewSet, basename='re
 router.register('titles', TitleViewSet, basename='titles')
 
 urlpatterns = [
-    path('categories/<slug>/', CategoryDestroy.as_view()),
+    path('categories/<slug:slug>/', CategoryDestroy.as_view()),
     path('categories/', CategoryListCreateView.as_view()),
-    path('genres/<slug>/', GenreDestroy.as_view()),
+    path('genres/<slug:slug>/', GenreDestroy.as_view()),
     path('genres/', GenreView.as_view()),
     path('', include(router.urls)),
 ]

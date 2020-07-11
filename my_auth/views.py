@@ -26,8 +26,10 @@ class GenerateConfirmationCode(generics.CreateAPIView):
     def perform_create(self, serializer):
         email = self.request.data['email']
         emails = Verificate.objects.filter(email=email)
-        if emails is not None:
+
+        if emails.exists():
             emails.delete()
+
         confirmation_code = str(random.randint(10000, 99999))
         send_mail(
             'Confirmation code',
@@ -55,6 +57,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
         serializer = self.get_serializer(data=request.data)
         email = request.data.get('email')
         confirmation_code = request.data.get('confirmation_code')
+
         if not email:
             return Response("Email is required field.",
                             status=status.HTTP_400_BAD_REQUEST)
@@ -65,8 +68,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
                                        confirmation_code=confirmation_code).exist():
             return Response("Confirmation code for your email isn't valid.",
                             status=status.HTTP_400_BAD_REQUEST)
-        if not CustomUser.objects.filter(email=email).exist():
-            CustomUser.objects.create(email=email)
+
+        CustomUser.objects.get_or_create(email=email)
+
         if serializer.is_valid(raise_exception=True):
             Verificate.objects.get(email=email).delete()
             return Response(serializer.validated_data,

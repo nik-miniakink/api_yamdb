@@ -12,11 +12,11 @@ class CustomFilterBackend(filters.BaseFilterBackend):
         name = request.query_params.get('name')
         year = request.query_params.get('year')
 
-        if Genre.objects.filter(slug=genre_slug):
+        if Genre.objects.filter(slug=genre_slug).exists():
             queryset = queryset.filter(genre__slug=genre_slug)
-        if Category.objects.filter(slug=category_slug):
+        if Category.objects.filter(slug=category_slug).exists():
             queryset = queryset.filter(category__slug=category_slug)
-        if queryset.filter(year=year):
+        if queryset.filter(year=year).exists():
             queryset = queryset.filter(year=year)
         if name:
             if Title.objects.filter(name=name):
